@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
+import { addContact } from '../redux/contacts/contacts-actions';
 
-export default function ContactForm({ onSubmit }) {
+function ContactForm({ contacts, addContact }) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -25,9 +27,18 @@ export default function ContactForm({ onSubmit }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    onSubmit({ name, number, id: uuidv4() });
+    formSubmitHandler({ name, number, id: uuidv4() });
     setName('');
     setNumber('');
+  };
+
+  const formSubmitHandler = item => {
+    const normalizedName = item.name.toLowerCase();
+    contacts.find(el => {
+      return el.name.toLowerCase() === normalizedName;
+    })
+      ? alert(`${item.name} is already in contacts`)
+      : addContact(item);
   };
 
   const nameId = uuidv4();
@@ -60,6 +71,16 @@ export default function ContactForm({ onSubmit }) {
     </form>
   );
 }
+
+const mapStateToProps = state => {
+  return {
+    contacts: state.contacts,
+  };
+};
+
+const mapDispatchToProps = { addContact };
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
 
 ContactForm.propTypes = {
   state: PropTypes.objectOf(PropTypes.string),
