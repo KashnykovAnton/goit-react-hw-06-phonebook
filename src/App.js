@@ -5,7 +5,7 @@ import Section from './components/Section';
 import ContactList from './components/ContactList';
 import ContactForm from './components/ContactForm';
 import Filter from './components/Filter';
-import { addContact, filterContact } from './redux/contacts/actions';
+import { addContact, filterContact } from './redux/contacts/contacts-actions';
 
 function App({ contacts, filter, addContact, filterContact }) {
   const formSubmitHandler = item => {
@@ -24,7 +24,8 @@ function App({ contacts, filter, addContact, filterContact }) {
 
   const changeFilter = useCallback(
     e => {
-      filterContact(e.target.value);
+      const value = e.target.value;
+      filterContact(value);
     },
     [filterContact],
   );
@@ -42,7 +43,8 @@ function App({ contacts, filter, addContact, filterContact }) {
         <ContactForm onSubmit={formSubmitHandler} />
       </Section>
       <Section title="Contacts">
-        <Filter value={filter} onChange={changeFilter} />
+        <Filter onChange={changeFilter} />
+        {/* <Filter value={filterValue} onChange={changeFilter} /> */}
         <ContactList list={filteredContacts} />
       </Section>
     </div>

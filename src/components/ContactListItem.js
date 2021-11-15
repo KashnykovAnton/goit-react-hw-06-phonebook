@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
-import { deleteContact } from '../redux/contacts/actions';
+import { deleteContact } from '../redux/contacts/contacts-actions';
 
 function ContactList({ id, name, number, deleteContact }) {
+  // console.log('id: ', id);
   return (
     <li>
       <span>{name}:</span>
@@ -10,7 +11,8 @@ function ContactList({ id, name, number, deleteContact }) {
         type="button"
         id={id}
         onClick={() => {
-          deleteContact(id);
+          // console.log('id in onClick: ', id);
+          deleteContact({ id });
         }}
       >
         Delete

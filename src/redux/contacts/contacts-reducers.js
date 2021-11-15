@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { types } from './contacts-types';
 
 const initialContacts = [
   { id: 'id-1', name: 'Rosie Simpson', number: 4591256 },
@@ -11,9 +12,9 @@ const initialFilter = '';
 
 const contactList = (state = initialContacts, { type, payload }) => {
   switch (type) {
-    case 'contacts/add':
+    case types.ADD:
       return [...state, payload];
-    case 'contacts/delete':
+    case types.DEL:
       return state.filter(contact => contact.id !== payload.id);
 
     default:
@@ -23,8 +24,9 @@ const contactList = (state = initialContacts, { type, payload }) => {
 
 const contactFilter = (state = initialFilter, { type, payload }) => {
   switch (type) {
-    case 'contacts/filter':
-      return (state = payload.filter);
+    case types.FILTER:
+      // return (state = payload.filter);
+      return payload;
     default:
       return state;
   }
@@ -34,3 +36,8 @@ export const contactReducer = combineReducers({
   contacts: contactList,
   filter: contactFilter,
 });
+
+// export const contactReducer = combineReducers({
+//   contacts,
+//   filter
+// });
