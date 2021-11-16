@@ -1,15 +1,28 @@
 import { v4 as uuidv4 } from 'uuid';
 import { useCallback } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getFilter } from '../redux/contacts/contacts-selectors';
 import { filterContact } from '../redux/contacts/contacts-actions';
 
-function Component({ filter, filterContact }) {
+export default function Component() {
+  const filter = useSelector(getFilter);
+
+  const dispatch = useDispatch();
+
   const changeFilter = useCallback(
     e => {
-      filterContact(e.target.value);
+      dispatch(filterContact(e.target.value));
     },
-    [filterContact],
+    [dispatch],
   );
+
+  // const changeFilter = useCallback(
+  //   e => {
+  //     const filteredContacts = value => dispatch(filterContact(value));
+  //     filteredContacts(e.target.value);
+  //   },
+  //   [dispatch],
+  // );
 
   return (
     <div>
@@ -19,12 +32,32 @@ function Component({ filter, filterContact }) {
   );
 }
 
-const mapStateToProps = state => {
-  return {
-    filter: state.filter,
-  };
-};
+// ---- VANILLA REDUX ---- //
 
-const mapDispatchToProps = { filterContact };
+// import { connect } from 'react-redux';
 
-export default connect(mapStateToProps, mapDispatchToProps)(Component);
+// function Component({ filter, filterContact }) {
+//   const changeFilter = useCallback(
+//     e => {
+//       filterContact(e.target.value);
+//     },
+//     [filterContact],
+//   );
+
+//   return (
+//     <div>
+//       <label htmlFor={uuidv4()}>Find contacts by name</label>
+//       <input type="text" value={filter} id={uuidv4()} onChange={changeFilter} />
+//     </div>
+//   );
+// }
+
+// const mapStateToProps = state => {
+//   return {
+//     filter: state.filter,
+//   };
+// };
+
+// const mapDispatchToProps = { filterContact };
+
+// export default connect(mapStateToProps, mapDispatchToProps)(Component);

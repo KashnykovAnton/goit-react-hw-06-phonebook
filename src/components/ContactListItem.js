@@ -1,7 +1,11 @@
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { deleteContact } from '../redux/contacts/contacts-actions';
 
-function ContactList({ id, name, number, deleteContact }) {
+export default function ContactList({ id, name, number }) {
+  const dispatch = useDispatch();
+
+  const onDelete = id => dispatch(deleteContact(id));
+
   return (
     <li>
       <span>{name}:</span>
@@ -10,7 +14,7 @@ function ContactList({ id, name, number, deleteContact }) {
         type="button"
         id={id}
         onClick={() => {
-          deleteContact({ id });
+          onDelete({ id });
         }}
       >
         Delete
@@ -19,6 +23,28 @@ function ContactList({ id, name, number, deleteContact }) {
   );
 }
 
-const mapDispatchToProps = { deleteContact };
+// ---- VANILLA REDUX ---- //
 
-export default connect(null, mapDispatchToProps)(ContactList);
+// import { connect } from 'react-redux';
+
+// function ContactList({ id, name, number, deleteContact }) {
+//   return (
+//     <li>
+//       <span>{name}:</span>
+//       <span>{number}</span>
+//       <button
+//         type="button"
+//         id={id}
+//         onClick={() => {
+//           deleteContact({ id });
+//         }}
+//       >
+//         Delete
+//       </button>
+//     </li>
+//   );
+// }
+
+// const mapDispatchToProps = { deleteContact };
+
+// export default connect(null, mapDispatchToProps)(ContactList);
